@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel - RotaKaravan{% endblock %}
+
+{% block content %}
+<div class="dashboard-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Yola Çıkmaya Hazır Mısınız?</h1>
+        <p>Karavanınız ve kampınız için eksikleri belirleyin, doğada sürprizlerle karşılaşmayın.</p>
+        <div class="hero-actions">
+            <a href="{{ url_for('items.list_items') }}" class="btn btn-primary">
+                <i class="fa-solid fa-clipboard-list"></i> İhtiyaç Listesini Yönet
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon icon-blue"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="stat-info">
+            <h3>Toplam İhtiyaç</h3>
+            <span class="stat-value">{{ stats.total_items }}</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon icon-success"><i class="fa-solid fa-box-open"></i></div>
+        <div class="stat-info">
+            <h3>Hazırlananlar</h3>
+            <span class="stat-value">{{ stats.packed_items }}</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon icon-orange"><i class="fa-solid fa-tags"></i></div>
+        <div class="stat-info">
+            <h3>Kategoriler</h3>
+            <span class="stat-value">{{ stats.categories_count }}</span>
+        </div>
+    </div>
+    <div class="stat-card progress-card">
+        <div class="stat-info">
+            <h3>Hazırlık Tamamlanma</h3>
+            <span class="stat-value">{{ stats.completion_percentage }}%</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: {{ stats.completion_percentage }}%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-details">
+    <div class="glass-card info-card">
+        <h2><i class="fa-solid fa-circle-info text-primary"></i> Karavan İpucu</h2>
+        <p>Yola çıkmadan önce su tankı doluluk oranını, gaz seviyesini ve ilk yardım çantası son kullanma tarihlerini mutlaka kontrol edin.</p>
+    </div>
+</div>
+{% endblock %}

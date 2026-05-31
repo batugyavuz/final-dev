@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RotaKaravan - Kamp ve Karavan İhtiyaç Takip Sistemi{% endblock %}</title>
+    <!-- Modern Typography: Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="app-header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="{{ url_for('main.index') }}" class="nav-logo">
+                    <span class="logo-icon"><i class="fa-solid fa-caravan"></i></span>
+                    <span class="logo-text">Rota<span class="logo-accent">Karavan</span></span>
+                </a>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.index') }}" class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}">
+                            <i class="fa-solid fa-chart-line"></i> Panel
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('items.list_items') }}" class="nav-link {% if request.endpoint == 'items.list_items' %}active{% endif %}">
+                            <i class="fa-solid fa-list-check"></i> İhtiyaç Listesi
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="app-main-content">
+        <div class="content-container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 RotaKaravan - Doğada Düzenli Kalın. <i class="fa-solid fa-tree text-accent"></i></p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
