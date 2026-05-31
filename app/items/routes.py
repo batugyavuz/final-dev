@@ -7,7 +7,7 @@ from app.models import Item
 def list_items():
     """List all caravan/camping needs from the SQLite database."""
     items = Item.query.all()
-    return render_template('items/list.html', items=items)
+    return render_template('items/dashboard.html', items=items)
 
 @items_bp.route('/add', methods=['POST'])
 def add_item():

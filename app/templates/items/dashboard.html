@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Paneller - RotaKaravan{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-6">
+        <h1 class="fw-bold text-white mb-1">Kamp ve Karavan İhtiyaç Listesi</h1>
+        <p class="text-muted mb-0">Eşyalarınızı kategorilere göre panellerden düzenleyin.</p>
+    </div>
+</div>
+
+<!-- Yeni İhtiyaç Ekleme Form Kartı -->
+<div class="card card-custom mb-5 shadow-sm">
+    <div class="card-body p-4">
+        <h5 class="card-title text-white mb-4"><i class="fa-solid fa-square-plus text-accent me-2"></i>Yeni İhtiyaç Ekle</h5>
+        <form action="{{ url_for('items.add_item') }}" method="POST" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="name" class="form-label text-muted small fw-semibold">Eşya Adı</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Örn: Katlanır Sandalye, Kafa Lambası..." required>
+            </div>
+            <div class="col-md-3">
+                <label for="category" class="form-label text-muted small fw-semibold">Kategori</label>
+                <select id="category" name="category" class="form-select">
+                    <option value="Mutfak/Kamp">Mutfak/Kamp</option>
+                    <option value="Uyku">Uyku</option>
+                    <option value="Teknik">Teknik</option>
+                    <option value="Güvenlik">Güvenlik</option>
+                    <option value="Kişisel">Kişisel</option>
+                    <option value="Diğer">Diğer</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="quantity" class="form-label text-muted small fw-semibold">Adet</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success-custom w-100 py-2 fw-semibold">
+                    <i class="fa-solid fa-plus me-1"></i>Ekle
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Kategori Panelleri (Kanban Benzeri Grid Düzeni) -->
+<div class="row">
+    {% for category in ['Mutfak/Kamp', 'Uyku', 'Teknik', 'Güvenlik', 'Kişisel', 'Diğer'] %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card card-custom h-100 shadow-sm">
+            <div class="card-header bg-transparent border-bottom border-secondary d-flex justify-content-between align-items-center py-3">
+                <h6 class="card-title mb-0 fw-bold text-white">
+                    <i class="fa-solid {% if category == 'Mutfak/Kamp' %}fa-utensils text-warning{% elif category == 'Uyku' %}fa-bed text-info{% elif category == 'Teknik' %}fa-screwdriver-wrench text-secondary{% elif category == 'Güvenlik' %}fa-shield-halved text-danger{% elif category == 'Kişisel' %}fa-user-tag text-success{% else %}fa-campground text-primary{% endif %} me-2"></i>
+                    {{ category }}
+                </h6>
+                <span class="badge bg-secondary rounded-pill">
+                    {{ items | selectattr('category', 'equalto', category) | list | length }}
+                </span>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush bg-transparent">
+                    {% set category_items = items | selectattr('category', 'equalto', category) | list %}
+                    {% if category_items | length > 0 %}
+                        {% for item in category_items %}
+                        <li class="list-group-item bg-transparent border-bottom border-secondary d-flex justify-content-between align-items-center py-3 {% if item.is_packed %}opacity-50{% endif %}">
+                            <div class="d-flex align-items-center">
+                                <!-- Durum Değiştirme (Checkbox) -->
+                                <form action="{{ url_for('items.toggle_item', item_id=item.id) }}" method="POST" class="me-3">
+                                    <button type="submit" class="border-0 bg-transparent text-accent fs-5 p-0" title="Hazır Olarak İşaretle">
+                                        {% if item.is_packed %}
+                                        <i class="fa-solid fa-square-check text-accent"></i>
+                                        {% else %}
+                                        <i class="fa-regular fa-square text-muted"></i>
+                                        {% endif %}
+                                    </button>
+                                </form>
+                                <span class="text-white {% if item.is_packed %}text-decoration-line-through text-muted{% endif %} fw-medium">
+                                    {{ item.name }}
+                                    <span class="badge bg-dark border border-secondary text-muted ms-1">x{{ item.quantity }}</span>
+                                </span>
+                            </div>
+                            <!-- Silme Aksiyonu -->
+                            <form action="{{ url_for('items.delete_item', item_id=item.id) }}" method="POST" onsubmit="return confirm('Bu eşyayı silmek istediğinizden emin misiniz?')">
+                                <button type="submit" class="btn btn-link text-danger p-0" title="Sil">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item bg-transparent text-muted py-4 text-center">
+                            <small class="text-muted"><i class="fa-regular fa-folder-open me-1"></i> Eşya bulunmuyor</small>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
