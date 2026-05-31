@@ -240,9 +240,111 @@ body {
     color: var(--text-primary);
 }
 
+.btn-danger {
+    background: linear-gradient(135deg, #d90429 0%, #b3001e 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(217, 4, 41, 0.2);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(217, 4, 41, 0.4);
+    background: linear-gradient(135deg, #ef233c 0%, #d90429 100%);
+}
+
 .btn-sm {
     padding: 6px 12px;
     font-size: 12px;
+}
+
+/* Form Styles */
+.form-card {
+    margin-bottom: 30px;
+}
+
+.form-card h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-item-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-group.qty-group {
+    flex: 0 0 100px;
+    min-width: 100px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-group input, .form-group select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 10px 15px;
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--accent-primary);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(56, 176, 0, 0.15);
+}
+
+.btn-submit {
+    height: 42px;
+}
+
+/* Empty State Styles */
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Action alignment cell */
+.action-cell {
+    display: flex;
+    align-items: center;
 }
 
 /* Stats Grid */

@@ -6,16 +6,42 @@
 <div class="page-header">
     <div class="header-title">
         <h1>Kamp ve Karavan İhtiyaç Listesi</h1>
-        <p>Yolculuk hazırlığınızı takip edin.</p>
-    </div>
-    <div class="header-actions">
-        <button class="btn btn-primary" onclick="alert('Yeni ekleme özelliği yakında eklenecek!')">
-            <i class="fa-solid fa-plus"></i> Yeni İhtiyaç Ekle
-        </button>
+        <p>Yolculuk hazırlığınızı gerçek zamanlı takip edin.</p>
     </div>
 </div>
 
+<!-- Yeni İhtiyaç Ekleme Formu -->
+<div class="glass-card form-card">
+    <h2><i class="fa-solid fa-square-plus text-accent"></i> Yeni İhtiyaç Ekle</h2>
+    <form action="{{ url_for('items.add_item') }}" method="POST" class="add-item-form">
+        <div class="form-group">
+            <label for="name">Eşya Adı</label>
+            <input type="text" id="name" name="name" required placeholder="Örn: Katlanır Sandalye, Uyku Tulumu...">
+        </div>
+        <div class="form-group">
+            <label for="category">Kategori</label>
+            <select id="category" name="category">
+                <option value="Mutfak/Kamp">Mutfak/Kamp</option>
+                <option value="Uyku">Uyku</option>
+                <option value="Teknik">Teknik</option>
+                <option value="Güvenlik">Güvenlik</option>
+                <option value="Kişisel">Kişisel</option>
+                <option value="Diğer">Diğer</option>
+            </select>
+        </div>
+        <div class="form-group qty-group">
+            <label for="quantity">Adet</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-submit">
+            <i class="fa-solid fa-plus"></i> Listeye Ekle
+        </button>
+    </form>
+</div>
+
+<!-- İhtiyaç Listesi Tablosu -->
 <div class="glass-card">
+    {% if items %}
     <div class="table-responsive">
         <table class="items-table">
             <thead>
@@ -51,19 +77,32 @@
                         <span class="badge badge-warning"><i class="fa-solid fa-clock"></i> Bekliyor</span>
                         {% endif %}
                     </td>
-                    <td>
-                        <button class="btn btn-sm btn-outline" onclick="alert('Durum güncelleme yakında eklenecek!')">
-                            {% if item.is_packed %}
-                            Geri Al
-                            {% else %}
-                            Hazırla
-                            {% endif %}
-                        </button>
+                    <td class="action-cell">
+                        <!-- Durum Değiştirme Formu (Toggle) -->
+                        <form action="{{ url_for('items.toggle_item', item_id=item.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline">
+                                {% if item.is_packed %} Geri Al {% else %} Hazırla {% endif %}
+                            </button>
+                        </form>
+                        
+                        <!-- Silme Formu (Delete) -->
+                        <form action="{{ url_for('items.delete_item', item_id=item.id) }}" method="POST" style="display:inline; margin-left: 8px;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bu eşyayı silmek istediğinizden emin misiniz?')">
+                                <i class="fa-solid fa-trash"></i> Sil
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon"><i class="fa-solid fa-campground"></i></div>
+        <h3>Listeniz Henüz Boş</h3>
+        <p>Yukarıdaki formu kullanarak ilk kamp veya karavan ihtiyacınızı listenize ekleyin!</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
