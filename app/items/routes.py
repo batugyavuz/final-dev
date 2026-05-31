@@ -7,7 +7,10 @@ from app.models import Item
 def list_items():
     """List all caravan/camping needs from the SQLite database."""
     items = Item.query.all()
-    return render_template('items/dashboard.html', items=items)
+    total_items = len(items)
+    packed_items = sum(1 for item in items if item.is_packed)
+    progress = int((packed_items / total_items) * 100) if total_items > 0 else 0
+    return render_template('items/dashboard.html', items=items, progress=progress)
 
 @items_bp.route('/add', methods=['POST'])
 def add_item():
