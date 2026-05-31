@@ -8,7 +8,7 @@ Masaüstünde klasör oluşturulduğunda ilk başta bulamadım. Ajan, Windows si
 
 Ardından, veritabanı modeli `models.py` dosyasını oluştururken Bilişim Güvenliği bölümü hassasiyetlerim doğrultusunda SQL Injection zafiyetine karşı koruma sağlayan SQLAlchemy ORM yapısının güvenliğini açıklayan Türkçe yorum satırlarını eklettim. Son olarak bilgisayarda Git kurulu olmadığını fark edince Ajan'a Git kurdurdum, yerel depoyu oluşturup ilk commit'i hazırlattım ve `https://github.com/batugyavuz/final-dev.git` adresine kodları yüklettim.
 
-*Bu oturumdan asıl öğrendiğim:* Proje dosyalarının yerel dizinlerde kaybolmaması için OneDrive entegrasyonu olan Windows sistemlerdeki gerçek masaüstü yolunu doğrulamak gerektiği ve kodları doğrudan otomatik Git yapılandırmasıyla yüklemenin zamandan kazandırdığıdır. Ayrıca güvenlik yorum satırlarının ilk aşamada eklenmesi kod inceleme süreçlerinde güvenli yazılım prensiplerini belgelemiş oldu.
+*Bu oturumdan asıl öğrendiğim:* Proje dosyalarının yerel dizinlerde kaybolmaması için OneDrive entegrasyonu olan Windows sistemlerde gerçek masaüstü yolunu doğrulamak gerektiği ve kodları doğrudan otomatik Git yapılandırmasıyla yüklemenin zamandan kazandırdığıdır. Ayrıca güvenlik yorum satırlarının ilk aşamada eklenmesi kod inceleme süreçlerinde güvenli yazılım prensiplerini belgelemiş oldu.
 
 ---
 
@@ -29,3 +29,11 @@ Kullanıcıların hazırlık motivasyonunu artırmak amacıyla sayfanın en üst
 Bootstrap 5 ile hazırlanan bu ilerleme çubuğu, eşyaların paketlenme durumuna göre gerçek zamanlı dolmaktadır. Ayrıca istek doğrultusunda, hazırlık oranı tam olarak %100'e ulaştığında ilerleme çubuğunun renginin yeşile (`bg-success`) dönmesini sağlayan koşullu sınıf yapısı Jinja şablonuna entegre edildi. Yapılan tüm değişiklikler başarıyla yerel commit yapılıp GitHub deposuna aktarıldı.
 
 *Bu oturumdan asıl öğrendiğim:* Kod tasarımında dinamik arayüz elementlerinin (ilerleme çubuğu vb.) veri tabanındaki güncellemeleri anında yansıtmasının kullanıcı deneyimini (UX) ciddi oranda yükselttiğidir. Ayrıca, backend'de performans iyileştirmesi yaparak gereksiz SQL sorgularından kaçınmanın önemi bu oturumda daha net anlaşıldı.
+
+---
+
+*Oturum 4 — 31 Mayıs — 15:13-15:15*
+
+Projenin canlı ortama (Render.com) sorunsuz taşınabilmesi amacıyla yapılandırma hazırlığı yaptık. Ajan'a, production düzeyinde HTTP sunucusu olarak **Gunicorn** kullanılabilmesi için `requirements.txt` dosyasına `gunicorn` kütüphanesini eklettim. Gunicorn'un Application Factory yapısındaki Flask uygulamasını çağırabilmesi için kök dizinde bir `wsgi.py` dosyası oluşturduk. Değişiklikleri Git ile yerel depoya commit edip GitHub'a (`main` dalına) gönderdik.
+
+*Bu oturumdan asıl öğrendiğim:* Canlıya alma (deployment) süreçlerinde, geliştirme aşamasındaki built-in Flask sunucusu yerine Gunicorn gibi dayanıklı bir WSGI sunucusunun kullanılmasının zorunlu olduğunu ve Application Factory modellerinde uygulamanın doğrudan başlatılabilmesi için `wsgi.py` gibi bir giriş noktası ara katmanının gerekliliğidir.
